@@ -114,14 +114,14 @@ func login(ctx *gin.Context) {
 		return
 	}
 	//创建token,有效期5分钟
-	tokenString, err := service.CreateToken(basicUserinfo, 3000, "TOKEN")
+	tokenString, err := service.CreateToken(basicUserinfo, 300000000000000000, "TOKEN")
 	if err != nil {
 		fmt.Println("create token err:", err)
 		tool.RespInternalError(ctx)
 		return
 	}
 	//创建refreshToken，有效期5天
-	refreshTokenString, err := service.CreateToken(basicUserinfo, 5*24*60*60, "TOKEN")
+	refreshTokenString, err := service.CreateToken(basicUserinfo, 5*24*60*60000000, "TOKEN")
 	if err != nil {
 		fmt.Println("create token err:", err)
 		tool.RespInternalError(ctx)
