@@ -92,6 +92,7 @@ func register(ctx *gin.Context) {
 func login(ctx *gin.Context) {
 	username := ctx.PostForm("username")
 	password := ctx.PostForm("password")
+	fmt.Println(username, password)
 	u := service.UserService{}
 
 	flag, err := u.IsPasswordCorrect(username, password)
