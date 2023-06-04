@@ -60,6 +60,8 @@ func jwtAuth(ctx *gin.Context) {
 		ctx.Abort()
 		return
 	}
+	fmt.Println("token", token)
+	fmt.Println("username", mc.User)
 	ctx.Set("iUsername", mc.User.Username)
 	ctx.Next()
 }

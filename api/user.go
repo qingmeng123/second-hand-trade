@@ -108,6 +108,7 @@ func login(ctx *gin.Context) {
 
 	//获取用户固定信息
 	basicUserinfo, err := u.GetBasicUserinfo(username)
+	basicUserinfo.Username = username
 	if err != nil {
 		fmt.Println("getBasicUserInfo err:", err)
 		tool.RespInternalError(ctx)

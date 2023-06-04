@@ -9,7 +9,6 @@ package service
 
 import (
 	"crypto/md5"
-	"database/sql"
 	"encoding/hex"
 	"gorm.io/gorm"
 	"second-hand-trade/dao"
@@ -129,50 +128,3 @@ func (u *UserService) UpdateMoney(username string, money float32) error {
 	return d.UpdateMoney(username, money)
 
 }
-
-// 是否已存在该github账号的用户
-func (u *UserService) IsExistGithubLogin(login string) (bool, error) {
-	d := dao.UserDao{}
-	_, err := d.SelectUserByGithubLogin(login)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return false, nil
-		}
-		return false, err
-	}
-	return true, nil
-}
-
-/*//通过电话查找用户
-func (u *UserService) LoginBySms(phone string) (model.User, error) {
-	d := dao.UserDao{}
-	return d.SelectUserByPhone(phone)
-}
-
-func (u *UserService) JudgePhone(phone string) (bool, error) {
-	d := dao.UserDao{}
-	_, err := d.SelectUserByPhone(phone)
-	if err != nil {
-		if err.Error() == "sql: no rows in result set" {
-			return false, nil
-		}
-		return false, err
-	}
-
-	return true, nil
-}
-
-func (u *UserService) SendCodeByPhone(phone string) (string, error) {
-	code := fmt.Sprintf("%06v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(1000000))
-	err := SendMessage(phone, code)
-	if err != nil {
-		return "", err
-	}
-	return code, err
-}
-
-//验证码注册
-func (u *UserService) RegisterBySms(userinfo model.User) error {
-	d := dao.UserDao{}
-	return d.RegisterBySms(userinfo)
-}*/

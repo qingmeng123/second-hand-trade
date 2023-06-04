@@ -77,20 +77,6 @@ func (dao *UserDao) UpdateMoney(username string, money float32) error {
 	return err
 }
 
-func (dao *UserDao) SelectUserByGithubLogin(login string) (model.User, error) {
-	user := model.User{}
-	row := DB.QueryRow("select uid,gender,name,phone,money,address_id,group_id,store_id,salt from second_hand_trade.userinfo where username=?", login)
-	if row.Err() != nil {
-		return user, row.Err()
-	}
-	err := row.Scan(&user.Uid, &user.Gender, &user.Name, &user.Phone, &user.Money, &user.AddressId, &user.GroupId, &user.StoreId, &user.Salt)
-	if err != nil {
-		return user, err
-	}
-	user.GithubLogin = login
-	return user, err
-}
-
 // 通过电话查找用户
 func (dao *UserDao) SelectUserByPhone(phone string) (model.User, error) {
 	user := model.User{}
