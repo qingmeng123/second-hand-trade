@@ -62,15 +62,13 @@ func (d *OrderDao) SelectOrdersByUid(uid int) ([]model.OrderDetails, error) {
 func (d *OrderDao) SubmitOrder(user model.User, order model.OrderDetails) error {
 	err := GormDB.Transaction(func(tx *gorm.DB) error {
 		//更新用户余额
-		if err := tx.Model(&user).Update("money", gorm.Expr("money-?", order.Money)).Error; err != nil {
+		if err := tx.Model(&user).Where("username=?", user.Username).Update("money", gorm.Expr("money-?", order.Money)).Error; err != nil {
 			return err
 		}
 
 		//验证购物车
 		//采用预加载
-		if err := tx.Preload("second-hand-tradepingCart").Find(&order).Error; err != nil {
-			return err
-		}
+
 		for _, cart := range order.ShoppingCarts {
 			var goods model.Goods
 			if err := tx.First(&goods, cart.GoodsId).Error; err != nil {
